@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import { Contact } from '../../types/types';
 import { nanoid } from 'nanoid';
+import { Contact } from '../../types/types';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { addContact } from '../../app/slises/contactsSlice';
 import { Button, Form, Input, Label } from './ContactsForm.styled';
 
-interface ContactsFormProps {
-  setNewContact: (contact: Contact) => void;
-  contacts: Array<Contact>;
-}
 
-const ContactsForm = ({ contacts, setNewContact }: ContactsFormProps) => {
+const ContactsForm = () => {
+  const contacts = useAppSelector(state => state.contacts.contacts)
+  const dispatch = useAppDispatch();
+
   const [contactName, setContactName] = useState<string>('');
   const [contactNumber, setContactNumber] = useState<string>('');
 
-  const onChangeInput = (e: React.FormEvent<HTMLInputElement>) => {
+  const onChangeInput: React.FormEventHandler<HTMLInputElement> = (e) => {
     const { name, value } = e.target as HTMLInputElement;
     if (name === 'name') {
       setContactName(value);
@@ -21,7 +22,7 @@ const ContactsForm = ({ contacts, setNewContact }: ContactsFormProps) => {
     setContactNumber(value);
   };
 
-  const onSubmitAddContact = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitAddContact: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const existingNames = contacts.map(el => el.name);
@@ -36,7 +37,7 @@ const ContactsForm = ({ contacts, setNewContact }: ContactsFormProps) => {
       name: contactName,
       number: contactNumber,
     };
-    setNewContact(newContact);
+    dispatch(addContact(newContact));
     setContactName('');
     setContactNumber('');
   };

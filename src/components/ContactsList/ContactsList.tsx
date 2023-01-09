@@ -1,6 +1,6 @@
-import { Contact } from '../../types/types';
 import ContactsListItem from './ContactsListItem';
 import styled from 'styled-components';
+import {  useAppSelector } from '../../app/hooks';
 
 const Ul = styled.ul`
   padding-left: 3rem;
@@ -10,17 +10,9 @@ const Warning = styled.p`
   padding-left: 3rem;
 `;
 
-interface ContactsListProps {
-  contacts: Array<Contact>;
-  filter: string;
-  deleteContact: (id: string) => void;
-}
+const ContactsList = () => {
+  const {contacts, filter} = useAppSelector(state => state.contacts)
 
-const ContactsList: React.FC<ContactsListProps> = ({
-  contacts,
-  filter,
-  deleteContact,
-}) => {
   const filteredList = contacts.filter(contact => {
     const normalizeName = contact.name.trim().toLowerCase();
     const normalizeFilter = filter.trim().toLowerCase();
@@ -39,7 +31,6 @@ const ContactsList: React.FC<ContactsListProps> = ({
         <ContactsListItem
           key={contact.id}
           contact={contact}
-          deleteContact={deleteContact}
         />
       ))}
     </Ul>

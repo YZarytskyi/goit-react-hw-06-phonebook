@@ -1,15 +1,20 @@
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setFilter } from "../../app/slises/contactsSlice";
 import { Input, Label } from "./Filter.styled";
 
-interface FilterProp {
-  filter: string;
-  filterContacts: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
 
-const Filter: React.FC<FilterProp> = ({ filter, filterContacts }) => {
+const Filter = () => {
+  const filter = useAppSelector(state => state.contacts.filter)
+  const dispatch = useAppDispatch();
+
+  const onChangeInput: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    dispatch(setFilter(e.currentTarget.value))
+  }
+
   return (
     <Label>
       Find contacts by name
-      <Input type="text" value={filter} onChange={filterContacts} />
+      <Input type="text" value={filter} onChange={onChangeInput} />
     </Label>
   );
 };

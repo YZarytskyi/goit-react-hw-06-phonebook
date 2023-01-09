@@ -1,19 +1,18 @@
+import { useAppDispatch } from '../../app/hooks';
+import { deleteContact } from '../../app/slises/contactsSlice';
 import { Contact } from '../../types/types';
 import { Button, Li } from './ContactsListItem.styled';
 
 interface ContactsListItemProps {
   contact: Contact;
-  deleteContact: (id: string) => void;
 }
 
-const ContactsListItem: React.FC<ContactsListItemProps> = ({
-  contact,
-  deleteContact,
-}) => {
-  const onClickDelete = (id: string) => {
-    deleteContact(id);
-  };
+const ContactsListItem = ({ contact }: ContactsListItemProps) => {
+  const dispatch = useAppDispatch();
 
+  const onClickDelete = (id: string) => {
+    dispatch(deleteContact(id));
+  };
   return (
     <Li>
       <p>
