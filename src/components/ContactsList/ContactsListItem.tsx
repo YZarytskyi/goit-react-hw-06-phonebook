@@ -1,5 +1,5 @@
-import { useAppDispatch } from '../../app/hooks';
-import { deleteContact } from '../../app/slises/contactsSlice';
+import { useAppDispatch } from '../../redux/hooks/hooks';
+import { deleteContact } from '../../redux/contactsSlice/contactsSlice';
 import { Contact } from '../../types/types';
 import { Button, Li } from './ContactsListItem.styled';
 
